@@ -1,0 +1,8 @@
+@use './variables' as *;
+@use './reset' as *;
+
+html,
+body,
+#app {
+  height: 100%;
+}
