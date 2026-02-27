@@ -11,8 +11,11 @@ import IconsResolver from 'unplugin-icons/resolver'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from 'node:path'
 import { viteMockServe } from 'vite-plugin-mock'
+// import { loadEnv } from 'vite'
 
 export default defineConfig(({ command }) => {
+  // mode可以像 command 一样解构函数参数获得
+  // const env = loadEnv(mode, process.cwd())
   return {
     plugins: [
       vue(),
@@ -50,5 +53,15 @@ export default defineConfig(({ command }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
+    // 配置代理跨域，解决开发环境下的跨域问题
+    // server: {
+    //   proxy: {
+    //     [env.VITE_API_BASE_URL]: {
+    //       target: env.VITE_SERVER,
+    //       changeOrigin: true,
+    //       rewrite: (path) => path.replace(/^\/api/, ''),
+    //     },
+    //   },
+    // },
   }
 })

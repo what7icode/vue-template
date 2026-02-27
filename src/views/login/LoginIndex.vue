@@ -79,14 +79,11 @@ const handleLogin = async () => {
     $router.push({ path: redirect })
     ElNotification({
       type: 'success',
+      title: 'hi，欢迎回来',
       message: '登录成功',
     })
-  } catch (error) {
+  } catch {
     loading.value = false
-    ElNotification({
-      type: 'error',
-      message: (error as Error).message,
-    })
   }
 }
 

@@ -47,10 +47,10 @@ const handleFullScreen = () => {
 }
 
 // 退出登录逻辑
-const handleLogout = () => {
+const handleLogout = async () => {
   // 向服务器发送请求退出登录
   // 清空用户仓库的登录信息，以及本地的token
-  userStore.userLogout()
+  await userStore.userLogout()
   // 退出登录后，跳转到登录页面，并携带当前页面的路径作为查询参数
   router.push({ path: '/login', query: { redirect: router.currentRoute.value.path } })
 }
