@@ -90,7 +90,6 @@ const settingsStore = useSettingsStore()
   left: $base-menu-width;
   width: calc(100% - #{$base-menu-width});
   height: calc(100vh - #{$base-tabbar-height});
-  background-color: red;
   padding: 20px;
   overflow: auto;
   transition: all 0.3s ease;
