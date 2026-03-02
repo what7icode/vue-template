@@ -6,13 +6,13 @@ import type {
   userInfoResponseData,
 } from '@/api/user/type'
 import { defineStore } from 'pinia'
-import type { userState } from './types/types'
+import type { UserState } from './types/types'
 import { constantRoutes } from '@/router/routes'
 import { reqUserInfo } from '@/api/user'
 
 // 用户存储单元
 const useUserStore = defineStore('user', {
-  state: (): userState => ({
+  state: (): UserState => ({
     token: localStorage.getItem('TOKEN'),
     menuRoutes: constantRoutes,
     username: '',

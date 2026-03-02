@@ -102,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { reqDeleteTrademark, reqHasTrademark } from '@/api/product/trademark'
 import type { Records, Trademark, TrademarkResponseData } from '@/api/product/trademark/type'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
@@ -171,6 +171,12 @@ const originalTrademarkParams = reactive<Trademark>({
   tmName: '',
   logoUrl: '',
 })
+const isUpdate = computed(() => {
+  return (
+    trademarkParams.tmName !== originalTrademarkParams.tmName ||
+    trademarkParams.logoUrl !== originalTrademarkParams.logoUrl
+  )
+})
 
 // 修改品牌按钮的回调
 const updateTrademark = (row: Trademark) => {
@@ -198,16 +204,11 @@ const confirm = async () => {
 
   // TODO: 没有修改操作，是否该直接禁用‘确定’按钮
   // 判断是否是修改操作，且数据没有变化
-  if (
-    trademarkParams.id &&
-    trademarkParams.tmName === originalTrademarkParams.tmName &&
-    trademarkParams.logoUrl === originalTrademarkParams.logoUrl
-  ) {
+  if (trademarkParams.id && !isUpdate.value) {
     ElMessage({
       type: 'info',
       message: '未作任何修改',
     })
-    dialogFormVisible.value = false
     return
   }
 
