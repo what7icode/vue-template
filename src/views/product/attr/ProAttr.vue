@@ -12,7 +12,7 @@
           icon="Plus"
           :disabled="categoryStore.c3Id ? false : true"
         >
-          添加属性
+          添加平台属性
         </el-button>
         <el-table border style="margin: 10px 0" :data="attrArr">
           <el-table-column label="序号" type="index" align="center" width="80px"></el-table-column>

@@ -36,6 +36,7 @@ export interface Attr {
   categoryId: number | string
   categoryLevel: number
   attrValueList: AttrValueList
+  attrIdAndValueId?: string
 }
 
 // 属性对象数组

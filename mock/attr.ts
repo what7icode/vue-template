@@ -63,7 +63,7 @@ const category3: any = {
     { id: 113, name: '数字杂志', category2Id: 11 },
   ],
   21: [
-    { id: 211, name: '手机', category2Id: 21 },
+    { id: 211, name: '移动手机', category2Id: 21 },
     { id: 212, name: '对讲机', category2Id: 21 },
     { id: 213, name: '老人机', category2Id: 21 },
   ],
