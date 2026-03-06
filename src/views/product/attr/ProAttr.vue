@@ -20,7 +20,7 @@
           <el-table-column label="属性值">
             <template #default="{ row }">
               <el-tag style="margin: 5px" v-for="item in row.attrValueList" :key="item.id">
-                {{ item.value }}
+                {{ item.valueName }}
               </el-tag>
             </template>
           </el-table-column>
@@ -71,9 +71,9 @@
                 @blur="toLook(row, $index)"
                 size="small"
                 placeholder="请输入属性值"
-                v-model="row.value"
+                v-model="row.valueName"
               ></el-input>
-              <div v-else @click="toEdit(row, $index)">{{ row.value }}</div>
+              <div v-else @click="toEdit(row, $index)">{{ row.valueName }}</div>
             </template>
           </el-table-column>
           <el-table-column label="属性值操作">
@@ -183,7 +183,7 @@ const cancel = () => {
 const addAttrValue = () => {
   // 点击添加属性值按钮的时候,向数组添加一个属性值对象
   attrParams.attrValueList.push({
-    value: '',
+    valueName: '',
     flag: true, // 控制编辑或查看模式的切换
   })
   nextTick(() => {
@@ -215,7 +215,7 @@ const save = async () => {
 // 属性值表单元素失却焦点事件回调
 const toLook = (row: AttrValue, $index: number) => {
   // 非法情况1
-  if (row.value.trim() === '') {
+  if (row.valueName.trim() === '') {
     // 删除属性值为空的元素（点击添加属性值按钮时添加的）
     attrParams.attrValueList.splice($index, 1)
     // 提示信息
@@ -229,7 +229,7 @@ const toLook = (row: AttrValue, $index: number) => {
   const isRepeat = attrParams.attrValueList.find((item) => {
     // 排除失却焦点时的属性值对象
     if (item !== row) {
-      return item.value === row.value
+      return item.valueName === row.valueName
     }
   })
 

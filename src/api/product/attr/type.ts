@@ -1,4 +1,4 @@
-// 服务器响应数据通用类型
+// 服务器响应数据的类型
 export interface ResponseData {
   code: number
   message: string
@@ -21,7 +21,7 @@ export interface CategoryResponseData extends ResponseData {
 // 属性值对象的类型，商品属性的值用对象来表示，因为要包含额外的信息
 export interface AttrValue {
   id?: number
-  value: string
+  valueName: string
   attrId?: number
   flag?: boolean
 }
@@ -36,13 +36,12 @@ export interface Attr {
   categoryId: number | string
   categoryLevel: number
   attrValueList: AttrValueList
-  attrIdAndValueId?: string
 }
 
 // 属性对象数组
 export type AttrList = Attr[]
 
-// 属性接口返回的数据 类型
+// 属性接口返回数据的类型
 export interface AttrResponseData extends ResponseData {
   data: AttrList
 }

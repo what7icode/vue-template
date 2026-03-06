@@ -18,6 +18,7 @@
   ],
   "ignoreFiles": ["**/dist/**", "**/coverage/**"],
   "rules": {
-    "no-empty-source": null
+    "no-empty-source": null,
+    "selector-class-pattern": ".*"
   }
 }

@@ -86,6 +86,7 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
+            :headers="headers"
           >
             <img v-if="trademarkParams.logoUrl" :src="trademarkParams.logoUrl" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
@@ -109,6 +110,11 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import type { UploadProps } from 'element-plus'
 import { reqAddOrUpdateTrademark } from '@/api/product/trademark'
 import { ElMessage } from 'element-plus'
+import useUserStore from '@/stores/modules/user'
+
+// 获取用户相关的小仓库：获取仓库内部token，登录成功以后携带给服务器
+const userStore = useUserStore()
+const headers = { Token: userStore.token }
 
 // 当前页码
 const pageNo = ref<number>(1)

@@ -12,8 +12,8 @@ dependencies:
     specifier: ^1.13.5
     version: 1.13.5
   element-plus:
-    specifier: ^2.13.2
-    version: 2.13.2(vue@3.5.28)
+    specifier: ^2.13.3
+    version: 2.13.3(vue@3.5.28)
   nprogress:
     specifier: ^0.2.0
     version: 0.2.0
@@ -93,7 +93,7 @@ devDependencies:
     version: 1.8.1
   postcss-scss:
     specifier: ^4.0.9
-    version: 4.0.9(postcss@8.5.6)
+    version: 4.0.9(postcss@8.5.8)
   prettier:
     specifier: 3.8.1
     version: 3.8.1
@@ -114,7 +114,7 @@ devDependencies:
     version: 40.0.0(stylelint@17.3.0)
   stylelint-config-standard-scss:
     specifier: ^17.0.0
-    version: 17.0.0(postcss@8.5.6)(stylelint@17.3.0)
+    version: 17.0.0(postcss@8.5.8)(stylelint@17.3.0)
   typescript:
     specifier: ~5.9.3
     version: 5.9.3
@@ -1286,29 +1286,29 @@ packages:
       levn: 0.4.1
     dev: true
 
-  /@floating-ui/core@1.7.4:
+  /@floating-ui/core@1.7.5:
     resolution:
       {
-        integrity: sha512-C3HlIdsBxszvm5McXlB8PeOEWfBhcGBTZGkGlWc2U0KFY5IwG5OQEuQ8rq52DZmcHDlPLd+YFBK+cZcytwIFWg==,
+        integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==,
       }
     dependencies:
-      '@floating-ui/utils': 0.2.10
+      '@floating-ui/utils': 0.2.11
     dev: false
 
-  /@floating-ui/dom@1.7.5:
+  /@floating-ui/dom@1.7.6:
     resolution:
       {
-        integrity: sha512-N0bD2kIPInNHUHehXhMke1rBGs1dwqvC9O9KYMyyjK7iXt7GAhnro7UlcuYcGdS/yYOlq0MAVgrow8IbWJwyqg==,
+        integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==,
       }
     dependencies:
-      '@floating-ui/core': 1.7.4
-      '@floating-ui/utils': 0.2.10
+      '@floating-ui/core': 1.7.5
+      '@floating-ui/utils': 0.2.11
     dev: false
 
-  /@floating-ui/utils@0.2.10:
+  /@floating-ui/utils@0.2.11:
     resolution:
       {
-        integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==,
+        integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==,
       }
     dev: false
 
@@ -2259,13 +2259,13 @@ packages:
         integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==,
       }
     dependencies:
-      '@types/lodash': 4.17.23
+      '@types/lodash': 4.17.24
     dev: false
 
-  /@types/lodash@4.17.23:
+  /@types/lodash@4.17.24:
     resolution:
       {
-        integrity: sha512-RDvF6wTulMPjrNdCoYRC8gNR880JNGT8uB+REUpC2Ns4pRqQJhGz90wh7rgdXDPpCczF3VGktDuFGVnz8zP7HA==,
+        integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==,
       }
     dev: false
 
@@ -4148,19 +4148,19 @@ packages:
       }
     dev: true
 
-  /element-plus@2.13.2(vue@3.5.28):
+  /element-plus@2.13.3(vue@3.5.28):
     resolution:
       {
-        integrity: sha512-Zjzm1NnFXGhV4LYZ6Ze9skPlYi2B4KAmN18FL63A3PZcjhDfroHwhtM6RE8BonlOPHXUnPQynH0BgaoEfvhrGw==,
+        integrity: sha512-RwLVtFpeHjZ4UCtHxVi1/sGR2cr2xOL7hqWa7qJc/+gdO6QavVG8Nw1C647obCb3tIg2ztMhNbIIjZUv+6z1og==,
       }
     peerDependencies:
       vue: ^3.3.0
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.2(vue@3.5.28)
-      '@floating-ui/dom': 1.7.5
+      '@floating-ui/dom': 1.7.6
       '@popperjs/core': /@sxzz/popperjs-es@2.11.8
-      '@types/lodash': 4.17.23
+      '@types/lodash': 4.17.24
       '@types/lodash-es': 4.17.12
       '@vueuse/core': 10.11.1(vue@3.5.28)
       async-validator: 4.2.5
@@ -7309,7 +7309,7 @@ packages:
       postcss: 8.5.6
     dev: true
 
-  /postcss-scss@4.0.9(postcss@8.5.6):
+  /postcss-scss@4.0.9(postcss@8.5.8):
     resolution:
       {
         integrity: sha512-AjKOeiwAitL/MXxQW2DliT28EKukvvbEWx3LBmJIRN8KfBGZbRTxNYW0kSqi1COiTZ57nZ9NW06S6ux//N1c9A==,
@@ -7318,7 +7318,7 @@ packages:
     peerDependencies:
       postcss: ^8.4.29
     dependencies:
-      postcss: 8.5.6
+      postcss: 8.5.8
     dev: true
 
   /postcss-selector-parser@7.1.1:
@@ -7362,6 +7362,18 @@ packages:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  /postcss@8.5.8:
+    resolution:
+      {
+        integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==,
+      }
+    engines: { node: ^10 || ^12 || >=14 }
+    dependencies:
+      nanoid: 3.3.11
+      picocolors: 1.1.1
+      source-map-js: 1.2.1
+    dev: true
 
   /posthtml-parser@0.2.1:
     resolution:
@@ -8308,7 +8320,7 @@ packages:
       stylelint: 17.3.0(typescript@5.9.3)
     dev: true
 
-  /stylelint-config-recommended-scss@17.0.0(postcss@8.5.6)(stylelint@17.3.0):
+  /stylelint-config-recommended-scss@17.0.0(postcss@8.5.8)(stylelint@17.3.0):
     resolution:
       {
         integrity: sha512-VkVD9r7jfUT/dq3mA3/I1WXXk2U71rO5wvU2yIil9PW5o1g3UM7Xc82vHmuVJHV7Y8ok5K137fmW5u3HbhtTOA==,
@@ -8321,8 +8333,8 @@ packages:
       postcss:
         optional: true
     dependencies:
-      postcss: 8.5.6
-      postcss-scss: 4.0.9(postcss@8.5.6)
+      postcss: 8.5.8
+      postcss-scss: 4.0.9(postcss@8.5.8)
       stylelint: 17.3.0(typescript@5.9.3)
       stylelint-config-recommended: 18.0.0(stylelint@17.3.0)
       stylelint-scss: 7.0.0(stylelint@17.3.0)
@@ -8357,7 +8369,7 @@ packages:
       stylelint: 17.3.0(typescript@5.9.3)
     dev: true
 
-  /stylelint-config-standard-scss@17.0.0(postcss@8.5.6)(stylelint@17.3.0):
+  /stylelint-config-standard-scss@17.0.0(postcss@8.5.8)(stylelint@17.3.0):
     resolution:
       {
         integrity: sha512-uLJS6xgOCBw5EMsDW7Ukji8l28qRoMnkRch15s0qwZpskXvWt9oPzMmcYM307m9GN4MxuWLsQh4I6hU9yI53cQ==,
@@ -8370,9 +8382,9 @@ packages:
       postcss:
         optional: true
     dependencies:
-      postcss: 8.5.6
+      postcss: 8.5.8
       stylelint: 17.3.0(typescript@5.9.3)
-      stylelint-config-recommended-scss: 17.0.0(postcss@8.5.6)(stylelint@17.3.0)
+      stylelint-config-recommended-scss: 17.0.0(postcss@8.5.8)(stylelint@17.3.0)
       stylelint-config-standard: 40.0.0(stylelint@17.3.0)
     dev: true
 

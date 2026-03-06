@@ -19,7 +19,7 @@
             <el-option
               v-for="attrValue in item.attrValueList"
               :key="attrValue.id"
-              :label="attrValue.value"
+              :label="attrValue.valueName"
               :value="`${item.id}:${attrValue.id}`"
             ></el-option>
           </el-select>
@@ -29,11 +29,11 @@
     <el-form-item label="销售属性">
       <el-form :inline="true">
         <el-form-item v-for="item in saleArr" :key="item.id" :label="item.saleAttrName">
-          <el-select v-model="item.saleAttrIdAndValueId" style="width: 240px">
+          <el-select v-model="item.saleIdAndValueId" style="width: 240px">
             <el-option
               v-for="saleAttrValue in item.spuSaleAttrValueList"
               :key="saleAttrValue.id"
-              :label="saleAttrValue.saleAttrValue"
+              :label="saleAttrValue.saleAttrValueName"
               :value="`${item.id}:${saleAttrValue.id}`"
             ></el-option>
           </el-select>
@@ -68,26 +68,27 @@ import { ref } from 'vue'
 import { reqAttr } from '@/api/product/attr'
 import { reqSpuImageList, reqSpuHasSaleAttr, reqAddSku } from '@/api/product/spu'
 import type {
-  AttrAndValueID,
   ResponseData,
-  SaleAttr,
-  SaleAttrAndValueID,
   SaleAttrResponseData,
+  SkuAttr,
+  SkuAttrValue,
   SkuData,
+  SkuSaleAttr,
+  SkuSaleAttrValue,
   SpuData,
   SpuImage,
   SpuImgListResponseData,
 } from '@/api/product/spu/type'
 import { ElMessage } from 'element-plus'
-import type { AttrList, AttrResponseData, Attr } from '@/api/product/attr/type'
+import type { AttrResponseData } from '@/api/product/attr/type'
 
 // 自定义事件的方法
 const $emit = defineEmits(['changeScene'])
 
 // 平台属性
-const attrArr = ref<AttrList>([])
+const attrArr = ref<SkuAttr[]>([])
 // 销售属性
-const saleArr = ref<SaleAttr[]>([])
+const saleArr = ref<SkuSaleAttr[]>([])
 // 照片的数据
 const imgArr = ref<SpuImage[]>([])
 // 收集SKU的参数
@@ -151,7 +152,7 @@ const handler = (row: SpuImage) => {
 const save = async () => {
   // 整理参数
   // 1.平台属性
-  skuParams.value.skuAttrValueList = attrArr.value.reduce((prev: AttrAndValueID[], next: Attr) => {
+  skuParams.value.skuAttrValueList = attrArr.value.reduce((prev: SkuAttrValue[], next: SkuAttr) => {
     if (next.attrIdAndValueId) {
       const [attrId, valueId] = next.attrIdAndValueId.split(':')
       prev.push({
@@ -163,9 +164,9 @@ const save = async () => {
   }, [])
   // 2.销售属性
   skuParams.value.skuSaleAttrValueList = saleArr.value.reduce(
-    (prev: SaleAttrAndValueID[], next: SaleAttr) => {
-      if (next.saleAttrIdAndValueId) {
-        const [saleAttrId, saleAttrValueId] = next.saleAttrIdAndValueId.split(':')
+    (prev: SkuSaleAttrValue[], next: SkuSaleAttr) => {
+      if (next.saleIdAndValueId) {
+        const [saleAttrId, saleAttrValueId] = next.saleIdAndValueId.split(':')
         prev.push({
           saleAttrId: Number(saleAttrId),
           saleAttrValueId: Number(saleAttrValueId),

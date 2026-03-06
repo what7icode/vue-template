@@ -183,7 +183,7 @@ const addSku = (row: SpuData) => {
 
 // 查看SKU列表按钮的回调
 const findSku = async (row: SpuData) => {
-  const result: SkuInfoData = await reqSkuList(row.id as number)
+  const result: SkuInfoData = await reqSkuList(Number(row.id))
   if (result.code == 200) {
     skuArr.value = result.data
     show.value = true

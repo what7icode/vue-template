@@ -29,6 +29,7 @@
         :on-preview="handlePictureCardPreview"
         :on-remove="handleRemove"
         :before-upload="handlerUpload"
+        :headers="headers"
       >
         <el-icon>
           <Plus />
@@ -75,11 +76,11 @@
               :key="item.id"
               closable
             >
-              {{ item.saleAttrValue }}
+              {{ item.saleAttrValueName }}
             </el-tag>
             <el-input
               @blur="toLook(row)"
-              v-model="row.saleAttrValue"
+              v-model="row.saleAttrValueName"
               v-if="row.flag == true"
               placeholder="请你输入属性值"
               size="small"
@@ -139,6 +140,11 @@ import {
 import { ref, computed, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { UploadFile, UploadUserFile } from 'element-plus'
+import useUserStore from '@/stores/modules/user'
+
+// 获取用户相关的小仓库：获取仓库内部token，登录成功以后携带给服务器
+const userStore = useUserStore()
+const headers = { Token: userStore.token }
 
 const $emit = defineEmits(['changeScene'])
 
@@ -251,7 +257,7 @@ const addSaleAttr = () => {
   const [baseSaleAttrId, saleAttrName] = saleAttrIdAndName.value.split(':')
 
   const newSaleAttr: SaleAttr = {
-    baseSaleAttrId: baseSaleAttrId as string,
+    baseSaleAttrId: Number(baseSaleAttrId),
     saleAttrName: saleAttrName as string,
     spuSaleAttrValueList: [],
   }
@@ -265,22 +271,22 @@ const addSaleAttr = () => {
 const toEdit = (row: SaleAttr) => {
   // 点击按钮的时候,input组件出来->编辑模式
   row.flag = true
-  row.saleAttrValue = ''
+  row.saleAttrValueName = ''
   nextTick(() => inputEl.value?.focus())
 }
 
 // 表单元素失却焦点的事件回调
 const toLook = (row: SaleAttr) => {
   // 整理收集的属性ID与具体的属性值
-  const { baseSaleAttrId, saleAttrValue } = row
+  const { baseSaleAttrId, saleAttrValueName } = row
   // 整理成服务器需要的属性值对象
   const newSaleAttrValue: SaleAttrValue = {
     baseSaleAttrId,
-    saleAttrValue: saleAttrValue as string,
+    saleAttrValueName: saleAttrValueName as string,
   }
 
   // 非空判断
-  if ((saleAttrValue as string).trim() == '') {
+  if ((saleAttrValueName as string).trim() == '') {
     ElMessage({
       type: 'error',
       message: '属性值不能为空的',
@@ -290,7 +296,7 @@ const toLook = (row: SaleAttr) => {
   }
   // 判断属性值是否重复
   const repeat = row.spuSaleAttrValueList.find((item) => {
-    return item.saleAttrValue == saleAttrValue
+    return item.saleAttrValueName == (saleAttrValueName as string)
   })
   if (repeat) {
     ElMessage({

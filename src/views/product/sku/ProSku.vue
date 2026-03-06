@@ -1,9 +1,9 @@
 <template>
   <el-card>
     <el-table border :data="skuList" style="margin: 10px 0">
-      <el-table-column label="序号" type="index" width="50px" align="center" />
-      <el-table-column label="名称" prop="name" show-overflow-tooltip width="150px" />
-      <el-table-column label="描述" prop="description" show-overflow-tooltip width="150px" />
+      <el-table-column label="序号" type="index" width="70px" align="center" />
+      <el-table-column label="名称" prop="skuName" show-overflow-tooltip width="150px" />
+      <el-table-column label="描述" prop="skuDesc" show-overflow-tooltip width="150px" />
       <el-table-column label="图片" prop="image" width="150px">
         <template #default="{ row }">
           <img :src="row.skuDefaultImg" alt="图片" style="width: 100px; height: 100px" />
@@ -16,7 +16,7 @@
           <el-button
             type="primary"
             size="small"
-            :icon="row.isSale == 1 ? 'Top' : 'Down'"
+            :icon="row.isSale == 1 ? 'Top' : 'Bottom'"
             @click="updateSale(row)"
           ></el-button>
           <el-button type="primary" size="small" icon="Edit"></el-button>
@@ -62,7 +62,7 @@
           <el-col :span="6">平台属性</el-col>
           <el-col :span="18">
             <el-tag style="margin: 5px" v-for="item in skuInfo.skuAttrValueList" :key="item.id">{{
-              item.value
+              item.valueName
             }}</el-tag>
           </el-col>
         </el-row>
@@ -73,7 +73,7 @@
               style="margin: 5px"
               v-for="item in skuInfo.skuSaleAttrValueList"
               :key="item.id"
-              >{{ item.saleAttrValue }}</el-tag
+              >{{ item.saleAttrValueName }}</el-tag
             >
           </el-col>
         </el-row>
@@ -81,7 +81,7 @@
           <el-col :span="6">商品图片</el-col>
           <el-col :span="18">
             <el-carousel :interval="4000" type="card" height="200px">
-              <el-carousel-item v-for="item in skuInfo.imageList" :key="item.id">
+              <el-carousel-item v-for="item in skuInfo.skuImageList" :key="item.id">
                 <img :src="item.imgUrl" alt="" style="width: 100%; height: 100%" />
               </el-carousel-item>
             </el-carousel>
@@ -150,6 +150,7 @@ const findSku = async (row: SkuData) => {
   drawer.value = true
   const result: SkuInfoData = await reqSkuInfo(row.id as number)
   skuInfo.value = result.data
+  console.log(skuInfo.value)
 }
 
 const deleteSku = async (row: SkuData) => {

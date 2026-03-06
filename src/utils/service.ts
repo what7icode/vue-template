@@ -26,15 +26,19 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response: AxiosResponse) => {
     // response是响应对象，response.data 是后端返回的内容，response.data.data是业务数据
-    const { code, message } = response.data
-    // 根据业务状态码判断请求是否成功，一般会用0表示业务成功
-    // HTTP状态码不足以覆盖业务逻辑，在实际业务中，请求可能成功（HTTP 200），但业务逻辑上却是失败的
-    if (code === 0 || code === 200) {
-      return response.data
-    } else {
-      ElMessage.error(message || '系统错误')
-      return Promise.reject(new Error(message || 'Error'))
+    const code = response.data.code
+    if (code !== 200) {
+      // 提示错误信息
+      ElMessage({
+        type: 'error',
+        message: response.data.message || '请求失败',
+      })
+      // 抛出错误
+      return Promise.reject(new Error(response.data.message || '请求失败'))
     }
+
+    // 简化数据
+    return response.data
   },
   (error: AxiosError) => {
     //处理网络错误
