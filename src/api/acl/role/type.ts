@@ -13,9 +13,9 @@ export interface RoleData {
   remark?: string
 }
 
-// 全部角色的数组ts类型
+// 全部角色的数组类型
 export type Records = RoleData[]
-// 全部角色数据响应的ts类型
+// 全部角色数据接口响应数据的类型
 export interface RoleResponseData extends ResponseData {
   data: {
     records: Records
@@ -27,7 +27,7 @@ export interface RoleResponseData extends ResponseData {
   }
 }
 
-// 菜单与按钮数据的ts类型
+// 菜单与按钮权限数据的类型
 export interface MenuData {
   id: number
   createTime: string
@@ -45,7 +45,7 @@ export interface MenuData {
 
 export type MenuList = MenuData[]
 
-// 菜单权限与按钮权限数据的ts类型
+// 菜单权限与按钮权限数据接口响应数据的类型
 export interface MenuResponseData extends ResponseData {
   data: MenuList
 }
