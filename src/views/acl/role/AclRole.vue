@@ -16,12 +16,12 @@
     <el-card style="margin: 10px 0">
       <el-button type="primary" size="default" icon="Plus" @click="addRole">添加职位</el-button>
       <el-table :data="allRoles" style="margin: 10px 0" border>
-        <el-table-column type="index" label="#" width="80" />
-        <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="roleName" label="职位名称" width="180" align="center" />
-        <el-table-column prop="createTime" label="创建时间" width="180" align="center" />
-        <el-table-column prop="updateTime" label="更新时间" width="180" align="center" />
-        <el-table-column label="操作" width="280">
+        <el-table-column type="index" label="#" />
+        <el-table-column prop="id" label="ID" />
+        <el-table-column prop="roleName" label="职位名称" />
+        <el-table-column prop="createTime" label="创建时间" align="center" />
+        <el-table-column prop="updateTime" label="更新时间" align="center" />
+        <el-table-column label="操作" width="280px">
           <!-- row:当前行的职位对象 -->
           <template #default="{ row }">
             <el-button type="primary" size="small" icon="User" @click="assignPermission(row)"
@@ -213,7 +213,7 @@ const submitPermission = async () => {
       type: 'success',
       message: '权限分配成功',
     })
-    // 如果后端没做token失效，那么刷新页面也不用重新登录
+    // 如果后端没做token失效，那么刷新页面也不用重新登录，但是会重新获取用户信息
     window.location.reload()
     drawerVisible.value = false
     getRole(currentPage.value)

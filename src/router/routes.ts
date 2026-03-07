@@ -22,6 +22,21 @@ export const constantRoutes = [
     meta: { title: '', hidden: false, icon: '' },
   },
   {
+    path: '/screen',
+    component: () => import('@/views/screen/ScreenIndex.vue'),
+    name: 'screen',
+    meta: { title: '数据大屏', hidden: false, icon: 'Monitor' },
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/404/404Index.vue'),
+    name: 'notFound',
+    meta: { title: '404', hidden: true },
+  },
+]
+// 异步路由
+export const asyncRoutes = [
+  {
     path: '/acl',
     component: () => import('@/layout/LayoutIndex.vue'),
     name: 'Acl',
@@ -108,23 +123,15 @@ export const constantRoutes = [
       },
     ],
   },
-
-  {
-    path: '/screen',
-    component: () => import('@/views/screen/ScreenIndex.vue'),
-    name: 'screen',
-    meta: { title: '数据大屏', hidden: false, icon: 'Monitor' },
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/404/404Index.vue'),
-    name: 'notFound',
-    meta: { title: '404', hidden: true },
-  },
+]
+// 任意路由
+export const anyRoutes = [
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/404',
-    name: 'notFound',
+    component: () => import('@/views/404/404Index.vue'),
+    name: 'Any',
     meta: { title: '任意路由', hidden: true },
   },
 ]
+
+export const filterAsyncRoutes = () => {}

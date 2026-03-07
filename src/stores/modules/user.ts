@@ -7,8 +7,23 @@ import type {
 } from '@/api/user/type'
 import { defineStore } from 'pinia'
 import type { UserState } from './types/types'
-import { constantRoutes } from '@/router/routes'
+import { constantRoutes, asyncRoutes, anyRoutes } from '@/router/routes'
 import { reqUserInfo } from '@/api/user'
+import type { RouteRecordRaw } from 'vue-router'
+import router from '@/router'
+import { cloneDeep } from 'lodash-es'
+
+// 过滤异步路由
+function filterAsyncRoutes(asyncRoute: RouteRecordRaw[], routes: string[]) {
+  return asyncRoute.filter((item: RouteRecordRaw) => {
+    if (routes.includes(item.name as string)) {
+      if (item.children && item.children.length > 0) {
+        item.children = filterAsyncRoutes(item.children, routes)
+      }
+      return true
+    }
+  })
+}
 
 // 用户存储单元
 const useUserStore = defineStore('user', {
@@ -17,6 +32,7 @@ const useUserStore = defineStore('user', {
     menuRoutes: constantRoutes,
     username: '',
     avatar: '',
+    buttons: [],
   }),
   actions: {
     // 用户登录时保存token
@@ -40,7 +56,17 @@ const useUserStore = defineStore('user', {
       const result: userInfoResponseData = await reqUserInfo()
       if (result.code === 200) {
         this.username = result.data.name
-        this.avatar = result.data.avatar
+        this.avatar =
+          result.data.avatar ||
+          'https://q8.itc.cn/q_70/images03/20250114/d9d8d1106f454c2b83ea395927bfc020.jpeg'
+
+        this.buttons = result.data.buttons
+        const userAsyncRoutes = filterAsyncRoutes(cloneDeep(asyncRoutes), result.data.routes)
+        this.menuRoutes = [...constantRoutes, ...userAsyncRoutes, ...anyRoutes]
+        const newRoutes = [...userAsyncRoutes, ...anyRoutes]
+        newRoutes.forEach((route: RouteRecordRaw) => {
+          router.addRoute(route)
+        })
         return 'ok'
       } else {
         return Promise.reject(new Error(result.message))
@@ -53,6 +79,8 @@ const useUserStore = defineStore('user', {
         this.token = ''
         this.username = ''
         this.avatar = ''
+        this.buttons = []
+        this.menuRoutes = []
         localStorage.removeItem('TOKEN')
         return 'ok'
       } else {

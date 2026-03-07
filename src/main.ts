@@ -7,11 +7,11 @@ import GlobalComponents from './plugins/global-components'
 import '@/styles/index.scss'
 import pinia from './stores'
 import './permission.ts'
-
+import { isHasButton } from './directive/has'
 const app = createApp(App)
 
 app.use(pinia)
 app.use(router)
 app.use(GlobalComponents)
-
+isHasButton(app)
 app.mount('#app')

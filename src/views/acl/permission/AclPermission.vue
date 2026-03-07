@@ -1,7 +1,13 @@
 <template>
   <div>
     <el-card>
-      <el-table :data="permissionList" style="width: 100%; margin-bottom: 20px" row-key="id" border>
+      <el-table
+        :data="permissionList"
+        style="width: 100%; margin-bottom: 20px"
+        row-key="id"
+        border
+        :expand-row-keys="['1']"
+      >
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="code" label="权限值" />
         <el-table-column prop="updateTime" label="修改时间" />

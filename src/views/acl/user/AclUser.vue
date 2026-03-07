@@ -115,17 +115,19 @@
     <el-drawer v-model="roleDrawerVisible" title="分配角色" :width="400">
       <template #default>
         <el-form>
-          <el-form-item label="用户名" prop="username">
+          <el-form-item label="用户名" prop="username" label-width="70px">
             <el-input v-model="userParams.username" disabled></el-input>
           </el-form-item>
-          <el-form-item label="角色" prop="roleIds">
+          <el-form-item label="角色" prop="roleIds" label-width="70px">
             <el-checkbox
               v-model="checkAll"
               :indeterminate="isIndeterminate"
               @change="handleCheckAllChange"
+              label="全选"
             >
-              全选
             </el-checkbox>
+          </el-form-item>
+          <el-form-item label-width="70px">
             <el-checkbox-group v-model="userRoleIds" @change="handleCheckedRolesChange">
               <el-checkbox
                 v-for="role in allRoles"
