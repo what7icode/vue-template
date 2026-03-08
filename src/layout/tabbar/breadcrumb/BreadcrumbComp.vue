@@ -17,7 +17,11 @@
       <component :is="settingsStore.isCollapse ? 'Expand' : 'Fold'"></component>
     </el-icon>
     <!-- 面包屑（移动端隐藏） -->
-    <el-breadcrumb v-if="!settingsStore.isMobile" separator-icon="ArrowRight">
+    <el-breadcrumb
+      v-if="!settingsStore.isMobile"
+      separator-icon="ArrowRight"
+      style="font-size: 16px; font-weight: 500"
+    >
       <el-breadcrumb-item
         v-for="item in route.matched"
         :key="item.path"

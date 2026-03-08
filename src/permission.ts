@@ -28,7 +28,6 @@ router.beforeEach(async (to) => {
       } else {
         try {
           await userStore.setUserInfo()
-          console.log('获取用户信息')
           // 刷新异步路由，有可能获取到用户信息但异步路由还没有加载完毕，出现空白的效果
           return { ...to }
         } catch {

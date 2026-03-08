@@ -2,7 +2,7 @@
   <router-view v-slot="{ Component }">
     <transition name="fade">
       <!-- 渲染layout一级路由组件的二级路由组件 -->
-      <component :is="Component" v-if="flag" />
+      <component :is="Component" v-if="flag" style="min-width: 768px" />
     </transition>
   </router-view>
 </template>

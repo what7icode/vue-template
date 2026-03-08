@@ -10,7 +10,7 @@
       </div>
     </el-card>
     <div class="bottom-img">
-      <svg-icon name="welcome" width="500px" height="500px"></svg-icon>
+      <svg-icon name="welcome" width="300px" height="300px"></svg-icon>
     </div>
   </div>
 </template>
