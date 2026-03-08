@@ -1,12 +1,13 @@
 <template>
   <div class="layout-container">
-    <!-- 1. 左侧菜单栏 -->
-    <div class="layout-sidebar">
-      <!--  logo -->
+    <!-- 桌面端：固定侧边栏 -->
+    <div
+      v-if="!settingsStore.isMobile"
+      class="layout-sidebar"
+      :class="{ 'is-collapse': settingsStore.isCollapse }"
+    >
       <logo-comp></logo-comp>
-      <!-- 滚动条形组件 -->
       <el-scrollbar>
-        <!-- 菜单组件 -->
         <el-menu
           background-color="#001529"
           text-color="white"
@@ -18,13 +19,44 @@
       </el-scrollbar>
     </div>
 
-    <!-- 2. 顶部导航栏 (采用固定定位) -->
-    <div class="layout-header" :class="{ 'is-collapse': settingsStore.isCollapse }">
+    <!-- 移动端：侧边栏作为抽屉 -->
+    <el-drawer
+      v-if="settingsStore.isMobile"
+      v-model="settingsStore.sidebarOpen"
+      direction="ltr"
+      :size="drawerWidth"
+      :with-header="false"
+      :z-index="1001"
+    >
+      <div class="drawer-sidebar">
+        <logo-comp></logo-comp>
+        <el-scrollbar>
+          <el-menu background-color="#001529" text-color="white" :default-active="$route.path">
+            <menu-comp :routes="userStore.menuRoutes"></menu-comp>
+          </el-menu>
+        </el-scrollbar>
+      </div>
+    </el-drawer>
+
+    <!-- 2. 顶部导航栏 -->
+    <div
+      class="layout-header"
+      :class="{
+        'is-collapse': !settingsStore.isMobile && settingsStore.isCollapse,
+        'is-mobile': settingsStore.isMobile,
+      }"
+    >
       <tabbar-comp></tabbar-comp>
     </div>
 
-    <!-- 3. 剩下的内容区域 (二级路由组件) -->
-    <div class="layout-content" :class="{ 'is-collapse': settingsStore.isCollapse }">
+    <!-- 3. 内容区域 -->
+    <div
+      class="layout-content"
+      :class="{
+        'is-collapse': !settingsStore.isMobile && settingsStore.isCollapse,
+        'is-mobile': settingsStore.isMobile,
+      }"
+    >
       <main-comp></main-comp>
     </div>
   </div>
@@ -37,9 +69,46 @@ import useUserStore from '@/stores/modules/user'
 import MenuComp from '@/layout/menu/MenuComp.vue'
 import TabbarComp from '@/layout/tabbar/TabbarComp.vue'
 import useSettingsStore from '@/stores/modules/settings'
+import { onMounted, onBeforeUnmount, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
+const route = useRoute()
+
+const MOBILE_WIDTH = 768
+const drawerWidth = '260px'
+
+// 监听屏幕宽度，自动切换 isMobile
+const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_WIDTH}px)`)
+
+const handleMediaChange = (e: MediaQueryListEvent | MediaQueryList) => {
+  settingsStore.isMobile = e.matches
+  if (e.matches) {
+    // 进入移动端时自动折叠并关闭抽屉
+    settingsStore.isCollapse = true
+    settingsStore.sidebarOpen = false
+  }
+}
+
+onMounted(() => {
+  handleMediaChange(mediaQuery)
+  mediaQuery.addEventListener('change', handleMediaChange)
+})
+
+onBeforeUnmount(() => {
+  mediaQuery.removeEventListener('change', handleMediaChange)
+})
+
+// 路由切换时自动关闭抽屉
+watch(
+  () => route.path,
+  () => {
+    if (settingsStore.isMobile) {
+      settingsStore.sidebarOpen = false
+    }
+  },
+)
 </script>
 
 <style scoped lang="scss">
@@ -48,7 +117,7 @@ const settingsStore = useSettingsStore()
   height: 100vh;
 }
 
-/* 侧边栏：固定宽度，在 flex 容器中占位 */
+/* 桌面端侧边栏 */
 .layout-sidebar {
   width: $base-menu-width;
   height: 100vh;
@@ -56,23 +125,41 @@ const settingsStore = useSettingsStore()
   color: #fff;
   transition: all 0.3s ease;
 
-  /* 滚动条菜单栏 */
+  &.is-collapse {
+    width: $base-menu-width-collapse;
+  }
+
   .el-scrollbar {
     height: calc(100vh - #{$base-menu-logo-height});
 
-    /* 去掉菜单组件右侧的边框 */
     :deep(.el-menu) {
       border-right: none !important;
     }
   }
 }
 
-/* 顶部导航栏：采用绝对固定定位，使其脱离标准流 */
+/* 抽屉内的侧边栏样式 */
+.drawer-sidebar {
+  width: 100%;
+  height: 100%;
+  background-color: $base-menu-background;
+  color: #fff;
+
+  .el-scrollbar {
+    height: calc(100vh - #{$base-menu-logo-height});
+
+    :deep(.el-menu) {
+      border-right: none !important;
+    }
+  }
+}
+
+/* 顶部导航栏 */
 .layout-header {
   position: fixed;
   top: 0;
-  left: $base-menu-width; /* 让在侧边栏的右侧开始 */
-  width: calc(100% - #{$base-menu-width}); /* 宽度扣除侧边栏的宽度 */
+  left: $base-menu-width;
+  width: calc(100% - #{$base-menu-width});
   height: $base-tabbar-height;
   background-color: var(--el-bg-color, white);
   transition: all 0.3s ease;
@@ -81,9 +168,14 @@ const settingsStore = useSettingsStore()
     left: $base-menu-width-collapse;
     width: calc(100% - #{$base-menu-width-collapse});
   }
+
+  &.is-mobile {
+    left: 0;
+    width: 100%;
+  }
 }
 
-/* 右侧内容包裹区域：在 flex 中自适应拉伸占满其余空间 */
+/* 内容区域 */
 .layout-content {
   position: absolute;
   top: $base-tabbar-height;
@@ -97,6 +189,22 @@ const settingsStore = useSettingsStore()
   &.is-collapse {
     left: $base-menu-width-collapse;
     width: calc(100% - #{$base-menu-width-collapse});
+  }
+
+  &.is-mobile {
+    left: 0;
+    width: 100%;
+    padding: 12px;
+  }
+}
+</style>
+
+<!-- 全局样式：覆盖 el-drawer 默认样式 -->
+<style lang="scss">
+.el-drawer {
+  // 抽屉本身不需要 padding
+  .el-drawer__body {
+    padding: 0 !important;
   }
 }
 </style>

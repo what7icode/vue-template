@@ -16,3 +16,12 @@ $base-menu-logo-height: 50px;
 
 // 左侧菜单logo右侧文字大小
 $base-logo-title-font-size: 16px;
+
+// 移动端断点
+$mobile-breakpoint: 768px;
+
+@mixin mobile {
+  @media (max-width: $mobile-breakpoint) {
+    @content;
+  }
+}

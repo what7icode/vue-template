@@ -136,5 +136,12 @@ function validatePassword(rule: any, value: any, callback: any) {
   .el-form-item:nth-of-type(-n + 2) {
     margin-bottom: 30px;
   }
+
+  @media (width <= 768px) {
+    width: 90%;
+    margin: 0 auto;
+    padding: 30px 20px;
+    border-radius: 24px;
+  }
 }
 </style>

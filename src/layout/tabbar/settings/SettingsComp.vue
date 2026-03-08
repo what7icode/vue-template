@@ -1,7 +1,17 @@
-<template>
+﻿<template>
   <div class="settings-container">
-    <el-button circle icon="Refresh" @click="handleRefresh"></el-button>
-    <el-button circle icon="FullScreen" @click="handleFullScreen"></el-button>
+    <el-button
+      v-if="!settingsStore.isMobile"
+      circle
+      icon="Refresh"
+      @click="handleRefresh"
+    ></el-button>
+    <el-button
+      v-if="!settingsStore.isMobile"
+      circle
+      icon="FullScreen"
+      @click="handleFullScreen"
+    ></el-button>
     <el-popover placement="bottom" trigger="click" title="主题设置">
       <el-form>
         <el-form-item label="主题颜色">
@@ -55,7 +65,6 @@ const handleRefresh = () => {
 
 // 全屏逻辑
 const handleFullScreen = () => {
-  // DOM对象有一个属性可以判断是否全屏模式
   const isFullscreen = document.fullscreenElement
   if (!isFullscreen) {
     document.documentElement.requestFullscreen()
@@ -66,10 +75,7 @@ const handleFullScreen = () => {
 
 // 退出登录逻辑
 const handleLogout = async () => {
-  // 向服务器发送请求退出登录
-  // 清空用户仓库的登录信息，以及本地的token
   await userStore.userLogout()
-  // 退出登录后，跳转到登录页面，并携带当前页面的路径作为查询参数
   router.push({ path: '/login', query: { redirect: router.currentRoute.value.path } })
 }
 
@@ -84,7 +90,6 @@ const handleDarkChange = () => {
 }
 const theme = ref('#409EFF')
 
-// 计算更亮的颜色
 const getLightColor = (color: string, level: number) => {
   const rgbPattern = /^#?[0-9A-Fa-f]{6}$/
   if (!rgbPattern.test(color)) return color
@@ -100,7 +105,6 @@ const getLightColor = (color: string, level: number) => {
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
 }
 
-// 计算更暗的颜色
 const getDarkColor = (color: string, level: number) => {
   const rgbPattern = /^#?[0-9A-Fa-f]{6}$/
   if (!rgbPattern.test(color)) return color
@@ -118,7 +122,6 @@ const getDarkColor = (color: string, level: number) => {
 
 const handleThemeChange = () => {
   const html = document.documentElement
-  // 如果选择了空（清除），恢复默认
   if (!theme.value) {
     html.style.setProperty('--el-color-primary', '')
     for (let i = 1; i <= 9; i++) {
@@ -127,16 +130,10 @@ const handleThemeChange = () => {
     html.style.setProperty('--el-color-primary-dark-2', '')
     return
   }
-
-  // 设置基本颜色
   html.style.setProperty('--el-color-primary', theme.value)
-
-  // 设置悬停等更亮的颜色 (light-1 到 light-9)
   for (let i = 1; i <= 9; i++) {
     html.style.setProperty(`--el-color-primary-light-${i}`, getLightColor(theme.value, i / 10))
   }
-
-  // 设置点击时等更暗的颜色 (dark-2)
   html.style.setProperty('--el-color-primary-dark-2', getDarkColor(theme.value, 0.2))
 }
 </script>
@@ -168,10 +165,6 @@ const handleThemeChange = () => {
 </style>
 
 <style lang="scss">
-/* 已添加全局样式来禁用颜色选择器面板关闭时的过渡动画
-   颜色选择器面板是通过 teleport 挂载到 body 上的，scoped 样式无法作用到它 */
-
-/* 去掉颜色选择器面板关闭时的残留动画 */
 .el-color-picker__panel {
   transition: none !important;
 }

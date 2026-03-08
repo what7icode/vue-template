@@ -5,6 +5,8 @@ const useSettingsStore = defineStore('settings', {
     return {
       isCollapse: false,
       isRefresh: false,
+      isMobile: false,
+      sidebarOpen: false,
     }
   },
 })
