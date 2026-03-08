@@ -12,6 +12,7 @@ import { reqUserInfo } from '@/api/user'
 import type { RouteRecordRaw } from 'vue-router'
 import router from '@/router'
 import { cloneDeep } from 'lodash-es'
+import useSettingsStore from './settings'
 
 // 过滤异步路由
 function filterAsyncRoutes(asyncRoute: RouteRecordRaw[], routes: string[]) {
@@ -67,6 +68,11 @@ const useUserStore = defineStore('user', {
         newRoutes.forEach((route: RouteRecordRaw) => {
           router.addRoute(route)
         })
+
+        // 用户信息获取成功后，初始化该用户的个性化主题设置
+        const settingsStore = useSettingsStore()
+        settingsStore.initUserTheme(this.username)
+
         return 'ok'
       } else {
         return Promise.reject(new Error(result.message))

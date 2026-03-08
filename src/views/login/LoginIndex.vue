@@ -5,22 +5,28 @@
       <el-col :span="12" :xs="24">
         <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
           <h3 class="title">用户登录</h3>
-          <el-form-item prop="username">
+          <el-form-item prop="username" label="用户名" for="username">
             <el-input
+              id="username"
+              name="username"
               v-model="loginForm.username"
               :prefix-icon="User"
               placeholder="请输入用户名"
               size="default"
+              autocomplete="username"
             />
           </el-form-item>
-          <el-form-item prop="password">
+          <el-form-item prop="password" label="密码" for="password">
             <el-input
+              id="password"
+              name="password"
               v-model="loginForm.password"
               :prefix-icon="Lock"
               type="password"
               placeholder="请输入密码"
               size="default"
               show-password
+              autocomplete="current-password"
             />
           </el-form-item>
           <el-form-item>
@@ -41,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import useUserStore from '@/stores/modules/user'
 import { useRouter } from 'vue-router'
@@ -50,6 +56,17 @@ const loading = ref(false)
 const $router = useRouter()
 const userStore = useUserStore()
 const loginFormRef = ref()
+
+onMounted(() => {
+  const html = document.documentElement
+  html.classList.remove('dark')
+  html.style.setProperty('--el-color-primary', '')
+  for (let i = 1; i <= 9; i++) {
+    html.style.setProperty(`--el-color-primary-light-${i}`, '')
+  }
+  html.style.setProperty('--el-color-primary-dark-2', '')
+})
+
 const loginForm = ref({
   username: '',
   password: '',
@@ -135,6 +152,10 @@ function validatePassword(rule: any, value: any, callback: any) {
 
   .el-form-item:nth-of-type(-n + 2) {
     margin-bottom: 30px;
+
+    :deep(.el-form-item__label) {
+      display: none;
+    }
   }
 
   @media (width <= 768px) {

@@ -3,8 +3,13 @@
     <!-- 顶部搜索卡片 -->
     <el-card class="search-card">
       <el-form :inline="true" class="search-form">
-        <el-form-item label="用户名：">
-          <el-input placeholder="请输入搜索用户名" v-model="keyword" clearable></el-input>
+        <el-form-item label="用户名：" for="search-keyword">
+          <el-input
+            id="search-keyword"
+            placeholder="请输入搜索用户名"
+            v-model="keyword"
+            clearable
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :disabled="!keyword" @click="search">搜索</el-button>
@@ -61,18 +66,20 @@
           show-overflow-tooltip
           align="center"
         ></el-table-column>
-        <el-table-column label="操作" width="260" align="center" fixed="right">
+        <el-table-column label="操作" width="300" align="center" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" size="small" plain @click="assignRole(row)"
+            <el-button type="primary" size="small" icon="User" @click="assignRole(row)"
               >分配角色</el-button
             >
-            <el-button type="warning" size="small" plain @click="updateUser(row)">编辑</el-button>
+            <el-button type="primary" size="small" icon="Edit" @click="updateUser(row)"
+              >编辑</el-button
+            >
             <el-popconfirm
               :title="`确定要删除用户 ${row.username} 吗?`"
               @confirm="deleteUser(row.id)"
             >
               <template #reference>
-                <el-button type="danger" size="small" plain>删除</el-button>
+                <el-button type="danger" size="small" icon="Delete">删除</el-button>
               </template>
             </el-popconfirm>
           </template>
@@ -96,14 +103,26 @@
       </template>
       <template #default>
         <el-form ref="userForm" label-width="120px" :model="userParams" :rules="rules">
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="userParams.username" placeholder="请输入用户名"></el-input>
+          <el-form-item label="用户名" prop="username" for="user-username">
+            <el-input
+              id="user-username"
+              v-model="userParams.username"
+              placeholder="请输入用户名"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="用户昵称" prop="name">
-            <el-input v-model="userParams.name" placeholder="请输入用户昵称"></el-input>
+          <el-form-item label="用户昵称" prop="name" for="user-name">
+            <el-input
+              id="user-name"
+              v-model="userParams.name"
+              placeholder="请输入用户昵称"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password" v-if="!userParams.id">
-            <el-input v-model="userParams.password" placeholder="请输入密码"></el-input>
+          <el-form-item label="密码" prop="password" v-if="!userParams.id" for="user-password">
+            <el-input
+              id="user-password"
+              v-model="userParams.password"
+              placeholder="请输入密码"
+            ></el-input>
           </el-form-item>
         </el-form>
       </template>
@@ -408,7 +427,7 @@ const deleteUser = async (userId: number) => {
     .search-form {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       flex-wrap: wrap;
     }
   }

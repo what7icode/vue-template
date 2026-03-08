@@ -185,6 +185,7 @@ watch(
   padding: 20px;
   overflow: auto;
   transition: all 0.3s ease;
+  background-color: var(--el-bg-color, white);
 
   &.is-collapse {
     left: $base-menu-width-collapse;

@@ -14,12 +14,18 @@
     ></el-button>
     <el-popover placement="bottom" trigger="click" title="主题设置">
       <el-form>
-        <el-form-item label="主题颜色">
-          <el-color-picker v-model="theme" @change="handleThemeChange" />
+        <el-form-item label="主题颜色" for="theme-picker">
+          <el-color-picker
+            id="theme-picker"
+            v-model="settingsStore.theme"
+            @change="handleThemeChange"
+            class="setting-theme-picker"
+          />
         </el-form-item>
-        <el-form-item label="暗黑模式">
+        <el-form-item label="暗黑模式" for="dark-switch">
           <el-switch
-            v-model="dark"
+            id="dark-switch"
+            v-model="settingsStore.dark"
             active-icon="Moon"
             inactive-icon="Sunny"
             inline-prompt
@@ -50,15 +56,13 @@
 <script setup lang="ts">
 import useSettingsStore from '@/stores/modules/settings'
 import useUserStore from '@/stores/modules/user'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
 const userStore = useUserStore()
+const settingsStore = useSettingsStore()
 
 // 内容区刷新逻辑
-const settingsStore = useSettingsStore()
 const handleRefresh = () => {
   settingsStore.isRefresh = !settingsStore.isRefresh
 }
@@ -79,62 +83,12 @@ const handleLogout = async () => {
   router.push({ path: '/login', query: { redirect: router.currentRoute.value.path } })
 }
 
-const dark = ref(false)
 const handleDarkChange = () => {
-  const html = document.documentElement
-  if (dark.value) {
-    html.setAttribute('class', 'dark')
-  } else {
-    html.removeAttribute('class')
-  }
-}
-const theme = ref('#409EFF')
-
-const getLightColor = (color: string, level: number) => {
-  const rgbPattern = /^#?[0-9A-Fa-f]{6}$/
-  if (!rgbPattern.test(color)) return color
-  const r1 = 255,
-    g1 = 255,
-    b1 = 255
-  const r2 = parseInt(color.substring(1, 3), 16)
-  const g2 = parseInt(color.substring(3, 5), 16)
-  const b2 = parseInt(color.substring(5, 7), 16)
-  const r = Math.round(r1 * level + r2 * (1 - level))
-  const g = Math.round(g1 * level + g2 * (1 - level))
-  const b = Math.round(b1 * level + b2 * (1 - level))
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
-}
-
-const getDarkColor = (color: string, level: number) => {
-  const rgbPattern = /^#?[0-9A-Fa-f]{6}$/
-  if (!rgbPattern.test(color)) return color
-  const r1 = 0,
-    g1 = 0,
-    b1 = 0
-  const r2 = parseInt(color.substring(1, 3), 16)
-  const g2 = parseInt(color.substring(3, 5), 16)
-  const b2 = parseInt(color.substring(5, 7), 16)
-  const r = Math.round(r1 * level + r2 * (1 - level))
-  const g = Math.round(g1 * level + g2 * (1 - level))
-  const b = Math.round(b1 * level + b2 * (1 - level))
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+  settingsStore.updateDark(settingsStore.dark, userStore.username)
 }
 
 const handleThemeChange = () => {
-  const html = document.documentElement
-  if (!theme.value) {
-    html.style.setProperty('--el-color-primary', '')
-    for (let i = 1; i <= 9; i++) {
-      html.style.setProperty(`--el-color-primary-light-${i}`, '')
-    }
-    html.style.setProperty('--el-color-primary-dark-2', '')
-    return
-  }
-  html.style.setProperty('--el-color-primary', theme.value)
-  for (let i = 1; i <= 9; i++) {
-    html.style.setProperty(`--el-color-primary-light-${i}`, getLightColor(theme.value, i / 10))
-  }
-  html.style.setProperty('--el-color-primary-dark-2', getDarkColor(theme.value, 0.2))
+  settingsStore.updateTheme(settingsStore.theme, userStore.username)
 }
 </script>
 
@@ -165,12 +119,27 @@ const handleThemeChange = () => {
 </style>
 
 <style lang="scss">
-.el-color-picker__panel {
+.setting-theme-picker .el-color-picker__panel {
   transition: none !important;
 }
 
-.el-zoom-in-top-leave-active.el-color-picker__panel {
+.setting-theme-picker .el-zoom-in-top-leave-active.el-color-picker__panel {
   transition: none !important;
   animation: none !important;
+}
+
+.el-button.el-button--small.is-text.el-color-footer__link-btn {
+  border: 1px solid #dcdfe6;
+  width: 50px;
+  padding: 5px;
+  text-align: center;
+
+  span {
+    display: none;
+  }
+
+  &::after {
+    content: '重置';
+  }
 }
 </style>

@@ -1,15 +1,17 @@
 <template>
   <div>
-    <el-card>
+    <el-card class="card">
       <el-form :inline="true" class="search">
-        <el-form-item label="搜索职位">
+        <el-form-item label="搜索职位：">
           <el-input placeholder="请输入职位名称" v-model="roleName"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :disabled="roleName ? false : true" @click="search"
-            >查询</el-button
-          >
-          <el-button type="primary" @click="reset">重置</el-button>
+          <template #default>
+            <el-button type="primary" :disabled="roleName ? false : true" @click="search"
+              >查询</el-button
+            >
+            <el-button type="primary" @click="reset">重置</el-button>
+          </template>
         </el-form-item>
       </el-form>
     </el-card>
@@ -244,9 +246,17 @@ const filterSelectList = (allData: MenuData[], checkedList: number[]) => {
 </script>
 
 <style lang="scss" scoped>
-.search {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.card {
+  /* 让表单元素在卡片中垂直居中并合理分布 */
+  ::v-deep(.el-card__body) {
+    padding-bottom: 0;
+  }
+
+  .search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 }
 </style>
