@@ -74,7 +74,7 @@ const settingsStore = useSettingsStore()
   left: $base-menu-width; /* 让在侧边栏的右侧开始 */
   width: calc(100% - #{$base-menu-width}); /* 宽度扣除侧边栏的宽度 */
   height: $base-tabbar-height;
-  background-color: #fff;
+  background-color: var(--el-bg-color, white);
   transition: all 0.3s ease;
 
   &.is-collapse {

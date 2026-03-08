@@ -80,7 +80,7 @@ const useUserStore = defineStore('user', {
         this.username = ''
         this.avatar = ''
         this.buttons = []
-        this.menuRoutes = []
+        this.menuRoutes = constantRoutes
         localStorage.removeItem('TOKEN')
         return 'ok'
       } else {
