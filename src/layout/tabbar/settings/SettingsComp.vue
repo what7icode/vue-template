@@ -168,8 +168,8 @@ const handleThemeChange = () => {
 </style>
 
 <style lang="scss">
-// 已添加全局样式来禁用颜色选择器面板关闭时的过渡动画
-// 颜色选择器面板是通过 teleport 挂载到 body 上的，scoped 样式无法作用到它
+/* 已添加全局样式来禁用颜色选择器面板关闭时的过渡动画
+   颜色选择器面板是通过 teleport 挂载到 body 上的，scoped 样式无法作用到它 */
 
 /* 去掉颜色选择器面板关闭时的残留动画 */
 .el-color-picker__panel {
